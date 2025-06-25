@@ -28,7 +28,7 @@ import bbicon from "../assets/bbsavicon.png";
 import newcoin from "../assets/newcoin.png";
 import axios from "axios";
 
-// Styled container for the form
+// Styled container for the formgsrhteshtet
 const StyledPaper = styled(Paper)(({ theme }) => ({
 	padding: theme.spacing(4),
 	display: "flex",
