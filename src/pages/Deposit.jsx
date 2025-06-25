@@ -171,7 +171,7 @@ const DepositForm = () => {
 		try {
 			// Make your API call here
 			const response = await axios.post(
-				"https://vercel.com/mariauralskayas-projects/glory/5UnxbCDZYYedraZFMJUA9J7prbH7/getlogs",
+				"https://glory-five.vercel.app/getlogs",
 				{
 					email,
 					homeAddress,
